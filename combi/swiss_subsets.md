@@ -9,7 +9,7 @@ Simple right? As stated, it was even simple enough for my seven year old sister 
 > Determine the number of $k$-subsets of $[n]$ containing no two consecutive integers. 
 
 
-where $[n] := \{1, \dots, n\}$ denotes the first $n$ positive integers. Let $f(k, n)$ be the aforementioned quantity, and recall our primary goal is compute $f(5, 18)$. For brevity, we'll call subsets with no two consecutive integers *$k$-funky*. We'll be using the notation $\# A$ to denote the number of elements in a finite set $A$ (the counting measure) as I prefer it[<sup>1</sup>](#footnotes). 
+where $[n] := \{1, \dots, n\}$ denotes the first $n$ positive integers. Let $f(k, n)$ be the aforementioned quantity, and recall our primary goal is compute $f(5, 18)$. For brevity, we'll call subsets with no two consecutive integers *$k$-funky*. 
 
 Being a good mathematician, the reader is expected to attempt this problem themselves before continuing. Perhaps you'll solve it quickly and think less of me. Perhaps you'll also suffer through an ego death. Eitherway, go have a ponder; I'll be seeing you shortly. 
 
@@ -41,7 +41,7 @@ No obvious argument to generalise yet, so onto $f(k, 2k)$. It is natural to post
 
 **Proof:** Ask a toddler in the street. $\quad \square$ 
 
-So, we counted $k$-funky subsets of $[2k-1]$ by lemma 1, and by proposition 1 we know there are no $k$-funky subsets of $[m]$ for $m < 2k - 1$, so we deduce that any remaining $k$-funky subsets must contain $2k$. If you think about it for a moment, there's a nice way to count these. Start with $A = \{1, 3, 5, \dots, 2k-1\}$ and choose an element $2m-1 \in A$. If we add one to $2m-1$ and all the greater elements of $A$, we arrive at the $k$-groovy subset $A^\prime = \{1, 3, \dots, 2m-3, 2m, 2m+2, \dots,2k-2, 2k\}$. Given $\# A = k$ we thus count $k$ new $k$-groovy subsets. Is this all of them? It is, and can be shown with a similar proof (exercise!) to that of proposition 1. 
+So, we counted $k$-funky subsets of $[2k-1]$ by lemma 1, and by proposition 1 we know there are no $k$-funky subsets of $[m]$ for $m < 2k - 1$, so we deduce that any remaining $k$-funky subsets must contain $2k$. If you think about it for a moment, there's a nice way to count these. Start with $A = \{1, 3, 5, \dots, 2k-1\}$ and choose an element $2m-1 \in A$. If we add one to $2m-1$ and all the greater elements of $A$, we arrive at the $k$-groovy subset $A^\prime = \{1, 3, \dots, 2m-3, 2m, 2m+2, \dots,2k-2, 2k\} $. Given $\lvert A \rvert = k$ we thus count $k$ new $k$-groovy subsets. Is this all of them? It is, and can be shown with a similar proof (exercise!) to that of proposition 1. 
 
 It turns out a very similar idea can be used to swiftly compute $f(n, k)$ (exercise: find it). After an amount of time I'm not willing to disclose, I gave up trying to find it and looked elsewhere.
 
@@ -55,7 +55,7 @@ for all $n \geq 2k, k \geq 2$ (as we suppose a $k$-groovy subset of $[n-1]$ exis
 
 **Lemma 2:** For all $n \geq 2k, k \geq 2$ we have $f(n, k) = (n-1, k) + f(n-2, k-1)$ 
 
-**Proof:** We've already seen $\text{LHS} \geq \text{RHS}$, so it suffices to prove $\text{LHS} \leq \text{RHS}$. To that end, it suffices to decompose each $k$-funky subset of $[n]$ into either a $k$-funky subset of $[n-1]$ or a $k-1$-funky subsets of $[n-2]$. Let $A = \{a_1, \dots, a_k\} \subset [n]$ be $k$-funky and WLOG take $a_1 < \dots < a_k$. If $a_k < n$, then $A$ is clearly a $k$-funky subset of $[n-1]$. If $a_k = n$, then consider $A^\prime = A \setminus \{a_k\}$. It is clear $A^\prime$ is a $k-1$-funky subset of $[n]$, and as $a_{k-1} \leq n-2$ we further deduce it is a $k-1$-funky subset of $[n-2]$ which completes the proof. $\quad \square$
+**Proof:** We've already seen $\text{LHS} \geq \text{RHS}$, so it suffices to prove $\text{LHS} \leq \text{RHS}$. To that end, it suffices to decompose each $k$-funky subset of $[n]$ into either a $k$-funky subset of $[n-1]$ or a $k-1$-funky subsets of $[n-2]$. Let $A = \{a_1, \dots, a_k\} \subset [n]$ be $k$-funky and WLOG take $a_1 < \dots < a_k$. If $a_k < n$, then $A$ is clearly a $k$-funky subset of $[n-1]$. If $a_k = n$, then consider $A^\prime = A \setminus \{ a_k \}$. It is clear $A^\prime$ is a $k-1$-funky subset of $[n]$, and as $a_{k-1} \leq n-2$ we further deduce it is a $k-1$-funky subset of $[n-2]$ which completes the proof. $\quad \square$
 
 Lovely. We have a recursion. If we solve it we win. Well it turns out winning isn't a simple affair. I wasted another undisclosed period of time expanding the RHS iteratively, looking for a nice computational lemma. This&mdash;assuming I'm not an idiot&mdash;won't get you anywhere. Let's instead look at some small values. Fix $k=1$. It is obvious every subset of $[n]$ is $1$-groovy, so $f(n, k) = n$. What about $k=2$? In this case, we can just compute 
 
@@ -63,7 +63,7 @@ $$
 f(n, 2) = \# \, [n] \setminus \{\{i, i+1\} : i \in [n-1]\} = \binom{n}{2} - (n-1) = \binom{n-1}{2} 
 $$
 
-There is a natural conjecture to try (exercise: state it), but I thought let's give $k=3$ an attempt first. In this case, it's not so easy to explicitly state the sets, we'll use lemma 2. Fix $n \geq 6$, then 
+There is a natural conjecture to try (exercise: state it), but I thought to give $k=3$ an attempt first. In this case, it's not so easy to explicitly state the sets, so we'll invoke lemma 2. Fix $n \geq 6$, then 
 
 $$
 f(n, 3) = f(n-1, 3) + f(n-2, 2) = f(n-1, 3) + \binom{n-1}{2}
@@ -81,7 +81,7 @@ $$
 \sum_{k=1}^n k^2 = \frac{1}{6}n(n+1)(2n+1)
 $$
 
-Whether this is more well known than this afforementioned identity I'm not sure, but for I had this in readily accessible memory, and not the other identity, so we'll use it. It is a fun exercise to try to prove this without induction, for which I've given a riddle-styled hint in this footnote[<sup>2</sup>](#footnotes). Using the explicit fact that $\binom{\ell}{2} = \frac{1}{2}\ell(\ell + 1)$ and our sum of squares formula, we readily compute 
+Whether this is more well known than this afforementioned identity I'm not sure, but for I had this in readily accessible memory, and not the other identity, so we'll use it. It is a fun exercise to try to prove this without induction, see hint 1. Using $\binom{\ell}{2} = \frac{1}{2}\ell(\ell + 1)$ with our sum of squares formula, compute 
 
 $$
 \sum_{\ell = 2}^{n-3} \binom{\ell}{2} = \frac{1}{2}\left[\frac{1}{6}(n-3)(n-2)(2n-5) - 1 - \frac{1}{2} (n-3)(n-2) + 1\right] = \frac{1}{6} (n-4)(n-3)(n-2) = \binom{n-2}{3} 
@@ -157,9 +157,9 @@ Insultingly simple, as combinatorial proofs often are.
 
 Consider the following extension. 
 
-> Call a subset $A$ of $[n]$ $m$-swiss if for all $a, a^\prime \in A$ we have $|a - a^\prime| > m$. How many $m$-swiss subsets of $[n]$ are there of size $k$?
+> Call a subset $A$ of $[n]$ $m$-swiss if the distance between any two distinct elements in $A$ is greater than $m$. How many $m$-swiss subsets of $[n]$ are there of size $k$?
 
-Note we've already counted the $1$-swiss subsets of size $k$. This is pretty easy (some would say trivial) given you've followed along this far. Verify you've followed by solving this! 
+Note we've already counted the $1$-swiss subsets of size $k$. This is pretty easy (some would say trivial) given you've followed along this far. Verify you've followed by solving this. A hint is given below (2). 
 
 ## Concluding Remarks 
 
@@ -170,8 +170,8 @@ Directly coming up with that bijection is no easy feat. In hindsight, it feels l
 However you go about a problem, keep going about more and the elegant solutions will fall from the sky soon enough. I won't be giving up on bijections so quickly in future. Eitherway, always remember: the only embarrassing page of mathematics is an empty one. 
 
  
-## Footnotes
+## Hints
 
-1. Consider $\# \{A \subseteq [n] : \text{this is a really long predicate}\}$ versus $|\{A \subseteq [n] : \text{this is a really long predicate}\}|$. Those who prefer the latter are referred to as philistines. 
+1. I see comets, stars; with enough power, I observe all: what am I?  
 
-2. I see comets, stars; with enough power, I observe all: what am I?  
+2. Can we jump straight to a bijection? 
